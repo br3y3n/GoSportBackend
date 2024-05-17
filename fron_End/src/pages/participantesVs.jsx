@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 export const ParticipantesVs = () => {
   const IdCampeonato = localStorage.getItem('ID');
   const [data, setData]= useState()
+  const [IdFase, setIdFase]= useState()
   const [equiposSorteados, setEquiposSorteados]= useState()
-  const [faseId, setFaseId]= useState()
   const [mensaje, setMensaje]= useState();
   const [nombreFase, setNombreFase]= useState("Fase 1")
   const [estado, setEstado]= useState(true)
@@ -22,13 +22,12 @@ export const ParticipantesVs = () => {
     };
     obtenerUsuarios();
   }, []);
-
   const sortearEquipos= async ()=>{
     const fase = await axios.post('http://localhost:4000/fases/obtener',{estado, nombreFase})
-    setFaseId(fase.data._id)
+setIdFase(fase.data._id)
     const dataVs ={
       equipos: data,
-      IdFase: faseId
+      IdFase: fase.data._id
     }
     const equipoSort = await axios.post('http://localhost:4000/enfrentamiento/obtenerEquipos',{
       dataVs
@@ -37,7 +36,6 @@ export const ParticipantesVs = () => {
     setEquiposSorteados(equipoSort.data.equipos)
     setMensaje(equipoSort.data.msg)
   }
-
   return (
     <>
     <h1>Id campeonato {IdCampeonato}</h1>

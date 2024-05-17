@@ -12,6 +12,7 @@ export const MirarCampeonatos = () => {
     };
     obtenerUsuarios();
   }, []);
+  console.log(data)
   return (
     <>
      <h1>campeonatos disponibles</h1>
