@@ -12,6 +12,7 @@ export const MirarCampeonatos = () => {
     };
     obtenerUsuarios();
   }, []);
+  console.log(data)
   return (
     <>
      <h1>campeonatos disponibles</h1>
@@ -28,7 +29,7 @@ export const MirarCampeonatos = () => {
             <p className="">{campeonato.inicioInscripcion}</p>
             <p className="">{campeonato.finInscripcion}</p>
 
-            <Link to={`/incribirEquipos/${campeonato._id}`} className='editar' >Incribirse al Campeonato</Link>
+            <Link to={`/mirarparticipantes/${campeonato._id}`} className='editar' >Campeonatos</Link>
           </div>
 </article>
       ))}

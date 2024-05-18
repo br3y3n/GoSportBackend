@@ -1,0 +1,16 @@
+
+.listaCam{
+    background-color: aliceblue;
+    width: max-content;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style: none;
+}
+
+.li{
+    color: black;
+
+}

@@ -3,7 +3,6 @@ import randomEquipo from "../helper/randomEquipos.js";
 import Vs from "../models/Vs.js";
 import InscripcionEquipos from "../models/inscripcionEquipos.js";
 import Fase from "../models/fase.js";
-import mongoose from "mongoose";
 const enfrentamientos = async (req, res) => {
   const Idcampeonato = req.headers.authorization;
 
@@ -19,33 +18,18 @@ const enfrentamientos = async (req, res) => {
 };
 
 
-const obtenerEquipos = async (req, res) => {
+const guardarVs= async (req, res) => {
   try {
     const equipos = req.body.dataVs.equipos;
-    const { IdFasee } = req.body.dataVs;
-
-    // Verifica si ya existe un equipo con el mismo IdFase
-    const equipoFormado = await Vs.findOne({ IdFase: IdFasee });
-
-    if (equipoFormado) {
-      const equiposActivos = await Vs.find({ IdFase: IdFasee });
-      res.send({
-        msg: "Equipos activos",
-        equipos: equiposActivos,
-      });
-    } else {
+    const IdFasee  = req.body.dataVs.IdFase;
       const equiposSorteados = randomEquipo(equipos.equiposInscritos);
       const equipovs = equipoVs(equiposSorteados);
-
-      // Usa el mismo ObjectId para todos los equipos
-      const idFaseObject = new mongoose.Types.ObjectId(IdFasee);
-
       await Promise.all(equipovs.map(async (equipoFormado) => {
         try {
           const resultado = new Vs({
             equipo1: equipoFormado.team1,
             equipo2: equipoFormado.team2,
-            IdFase: idFaseObject,
+            IdFase: IdFasee,
           });
           await resultado.save();
         } catch (error) {
@@ -55,13 +39,37 @@ const obtenerEquipos = async (req, res) => {
 
       res.send({
         msg: "Equipos sorteados correctamente",
-        equipos: equipovs,
       });
-    }
+    
   } catch (error) {
     console.error('Error al obtener equipos:', error);
     res.status(500).send('Error al obtener equipos');
   }
-};
+}
 
-export { enfrentamientos, obtenerEquipos };
+
+ const obtenerVs  = async(req, res)=>{
+  try{
+    const {idfase} = req.headers
+    console.log(idfase)
+    const IdFase = idfase
+    console.log(IdFase)
+    if(IdFase){
+      const vs= await Vs.find({IdFase})
+      console.log(vs)
+      return res.send({
+        msg: "id Encontrado",
+        equipos: vs
+      })
+    }else{
+      return res.send({
+        msg:"id no encontrado"
+      })
+    }
+    }catch(error){
+
+    }
+  }
+
+ 
+export { enfrentamientos, guardarVs ,obtenerVs};

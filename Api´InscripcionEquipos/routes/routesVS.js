@@ -1,6 +1,7 @@
 import express from "express";
-import { enfrentamientos, obtenerEquipos } from "../controllers/controllerVs.js";
+import { enfrentamientos, guardarVs, obtenerVs} from "../controllers/controllerVs.js";
 const router = express.Router();
 router.get('/vs', enfrentamientos)
-router.post('/obtenerEquipos', obtenerEquipos)
+router.post('/guardarvs', guardarVs);
+router.get('/obtenervs', obtenerVs)
 export default router

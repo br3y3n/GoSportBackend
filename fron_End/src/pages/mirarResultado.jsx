@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-
+import { SideBar } from '../components/sideBar';
+import axios from 'axios';
 export const Resultado = () => {
    const [data, setData]= useState()
    useEffect(() => {
@@ -10,8 +11,11 @@ export const Resultado = () => {
     obtenerUsuarios();
   }, []);
   return (
-   <article>
+   <article className='participantes'>
 
+    <SideBar/>
+
+    <section>
     <div>
     <h1>Equipo1</h1>
     <h2>goles</h2>
@@ -24,6 +28,7 @@ export const Resultado = () => {
     <h2>tarjetas Amarillas</h2>
     <h2>tarjetas rojas</h2>
     </div>
+    </section>
    </article>
   )
 }
