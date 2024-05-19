@@ -2,7 +2,7 @@ import equipoVs from "../helper/equipoVs.js";
 import randomEquipo from "../helper/randomEquipos.js";
 import Vs from "../models/Vs.js";
 import InscripcionEquipos from "../models/inscripcionEquipos.js";
-import Fase from "../models/fase.js";
+
 const enfrentamientos = async (req, res) => {
   const Idcampeonato = req.headers.authorization;
 
@@ -51,12 +51,10 @@ const guardarVs= async (req, res) => {
  const obtenerVs  = async(req, res)=>{
   try{
     const {idfase} = req.headers
-    console.log(idfase)
-    const IdFase = idfase
-    console.log(IdFase)
+    const IdFase = idfase  
+  
     if(IdFase){
       const vs= await Vs.find({IdFase})
-      console.log(vs)
       return res.send({
         msg: "id Encontrado",
         equipos: vs
@@ -67,9 +65,40 @@ const guardarVs= async (req, res) => {
       })
     }
     }catch(error){
-
+      console.log(error)
     }
   }
 
+  const actualizarVs =async (req, res)=>{
+    const id= req.params.id
+    const {equipo1, equipo2,IdFase, fecha, hora } = req.body
+    if([id,equipo1,equipo2,IdFase,fecha, hora].includes('')){
+      return res.send({
+        msg:"todos los campos son obligatorios"
+      })
+    }
+    const vs = await Vs.findById(id)
+    if(!vs){
+      return res.send({
+        msg: "VS no existe"
+      })
+    }
+    try {
+      vs.equipo1 = equipo1
+      vs.equipo2 = equipo2
+      vs.IdFase = IdFase
+      vs.fecha = fecha
+      vs.hora = hora
+      await vs.save()
+
+      return res.send({
+        msg: "Cronograma agregado correctamente"
+      })
+      
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
  
-export { enfrentamientos, guardarVs ,obtenerVs};
+export { enfrentamientos, guardarVs ,obtenerVs, actualizarVs};

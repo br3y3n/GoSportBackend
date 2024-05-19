@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom"
 // import { useLocalStorage } from 'react-storage-complete';
 export const InscribirEquipos = () => {
 
-    const Idcampeonato= useParams().id
+    // const Idcampeonato= useParams().id
     // const [ Item, setItem ] = useLocalStorage('ID'); 
     const [nombreEquipo, setNombreEquipo] = useState('')
     const [nombreCapitan, setNombreCapitan] = useState('')
@@ -16,7 +16,7 @@ export const InscribirEquipos = () => {
     const [ficha, setFicha] = useState(0)
     const [dorsal, setDorsal] = useState(0)
     const [participantes, setParticipantes] = useState([]);
-    localStorage.setItem('ID', Idcampeonato.toString())
+    // localStorage.setItem('ID', Idcampeonato.toString())
     const agregarIntegrante = () => {
         const nuevoIntegrante = {
           N,

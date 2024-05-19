@@ -15,7 +15,7 @@ function App() {
     let routes = useRoutes([
       {path:'/', element: <MirarCampeonatos/>},
       {path:'/incribirEquipos/:id', element: <InscribirEquipos/>},
-      {path: '/mirarparticipantes/:id', element: <Participantes/>},
+      {path: '/mirarparticipantes/:idCampeonato', element: <Participantes/>},
       {path:"/cronograma", element: <Cronograma/>},
       {path: "/derrotero", element: <Derrotero/>},
       {path:"/resultado", element: <Resultado/>},

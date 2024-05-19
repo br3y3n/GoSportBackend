@@ -6,8 +6,6 @@ const agregarCampeonato = async (req, res) => {
     try {
         const campeonato = Campeonatos(req.body);
         const campeonatoSave = await campeonato.save()
-        // const preubacoll = connectionDB.bd("goSport").colletion("prueba").save()
-        // preubacoll.save()
         res.json(campeonatoSave)
     } catch (error) {
         console.log(error)

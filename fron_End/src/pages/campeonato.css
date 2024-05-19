@@ -121,4 +121,13 @@
 .equiposIncritos{
   background-color: aliceblue;
   padding: 20px;
+  margin-bottom: 20px;
+
+}
+
+.addInfo{
+  display: flex;
+  gap: 20px;
+  height: 30px;
+  margin-bottom: 20px;
 }

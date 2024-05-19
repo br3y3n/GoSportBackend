@@ -26,11 +26,6 @@ const VsShema = mongoose.Schema({
         require: false,
         trim: true
     },
-    lugar:{
-        type: String,
-        requiere: false,
-        trim: true
-    },
     IdResultado:{
         type:String,
         require: false,

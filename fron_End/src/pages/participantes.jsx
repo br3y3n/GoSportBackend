@@ -2,8 +2,10 @@ import React,{useState, useEffect} from 'react'
 import { SideBar } from '../components/sideBar'
 import './participanteCss.css'
 import axios from 'axios'
+import { useParams } from 'react-router-dom'
 export const Participantes = () => {
-    const IdCampeonato = localStorage.getItem('ID');
+    const IdCampeonato = useParams().idCampeonato
+    localStorage.setItem('ID', IdCampeonato.toString())
     const [data, setData] = useState()
     useEffect(() => {
         const obtenerUsuarios = async () => {
