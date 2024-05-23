@@ -6,7 +6,7 @@ export const VerEquipos = () => {
     <aside>
         <SideBar/>
         <article>
-            <h1>vs</h1>
+            <h1>vs vs</h1>
         </article>
     </aside>
   )
