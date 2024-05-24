@@ -40,6 +40,11 @@ const resultadoShema = mongoose.Schema({
         type: Number,
         require: false,
         trim: true
+    },
+    IdVs:{
+        type:String,
+        require: false,
+        trim: true
     }
 })
 

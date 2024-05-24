@@ -28,12 +28,13 @@ export const Cronograma = () => {
           }
         })
       setEstadoBtn(false)
+      
       setDataVs(vs.data.equipos)
       }
         obtenerVs()
     }
   }, [])
-
+console.log(dataVs)
   useEffect(() => {
     const obtenerUsuarios = async () => {
       const response = await axios.get(`http://localhost:4000/enfrentamiento/vs`,{
@@ -45,6 +46,9 @@ export const Cronograma = () => {
     };
     obtenerUsuarios();
   }, []);
+  console.log(
+    data
+  )
   const sortearEquipos = async () => {
     try {
       localStorage.setItem('estadoFase', estado)
@@ -54,9 +58,10 @@ export const Cronograma = () => {
       setIdFase(idFase)
       // Guardar los datos para enviar
       const dataVs = {
-        equipos: data,
+        equipos: data.equiposInscritos,
         IdFase: idFase
       };
+      console.log(dataVs)
       localStorage.setItem('IdFase', idFase)
       // Guardar los enfrentamientos
       const equipoSort = await axios.post('http://localhost:4000/enfrentamiento/guardarvs', {
@@ -78,6 +83,7 @@ export const Cronograma = () => {
       console.error('Error al sortear equipos:', error);
     }
   };
+  
   const agregarCronograma=async(id, equipo1,equipo2, IdFase)=>{
     try {
       const vs = await axios.patch(`http://localhost:4000/enfrentamiento/agregarCronograma/${id}`, {
@@ -102,7 +108,7 @@ export const Cronograma = () => {
     <button className='editar' onClick={sortearEquipos}>SORTEAR</button>:
     dataVs.map((equipo)=>(
       <article key={equipo._id} className='equiposIncritos'>
-        <h1>{equipo.equipo1} VS {equipo.equipo2}</h1>
+        <h1>{equipo.equipo1.name} VS {equipo.equipo2.name}</h1>
         <div className='addInfo'>
         <h1>Hora</h1>
         <input 
@@ -119,7 +125,7 @@ export const Cronograma = () => {
           onChange={e => setFecha(e.target.value)}
           />
         </div>
-        <button onClick={()=>agregarCronograma(equipo._id, equipo.equipo1, equipo.equipo2, equipo.IdFase)} >Guardar</button>
+        <button onClick={()=>agregarCronograma(equipo._id, equipo.equipo1.name, equipo.equipo2.name, equipo.IdFase)} >Guardar</button>
       </article>
     ))
    

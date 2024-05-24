@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const VsShema = mongoose.Schema({
     equipo1: {
-        type: String,
+        type: Schema.Types.Mixed,
         require: true,
         trim: true
     },
     equipo2: {
-        type: String,
+        type: Schema.Types.Mixed,
         require: true,
         trim: true
     },
@@ -26,11 +26,11 @@ const VsShema = mongoose.Schema({
         require: false,
         trim: true
     },
-    IdResultado:{
-        type:String,
-        require: false,
-        trim: true
+    estado:{
+        type: Boolean,
+        require: false
     }
+   
 })
 
 const Vs = mongoose.model("Vs", VsShema);

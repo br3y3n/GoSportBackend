@@ -11,6 +11,8 @@ const obtenerResultado = async (req, res) => {
     }
 }
 
+
+
 export {
     obtenerResultado
 }

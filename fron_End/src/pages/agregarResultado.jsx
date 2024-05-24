@@ -7,7 +7,7 @@ export const AgregarResultado = () => {
     const [equipo2, setEquipo2]= useState()
     useEffect(() => {
      const obtenerUsuarios = async () => {
-       const response = await axios.get(`http://localhost:4000/enfrentamiento/vs`);
+       const response = await axios.get(`http://localhost:4000/enfrentamiento/obtenervs`);
        setData(response.data);
      };
      obtenerUsuarios();

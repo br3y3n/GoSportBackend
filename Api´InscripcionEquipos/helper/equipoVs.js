@@ -1,4 +1,5 @@
 const equipoVs = (teams) => {
+   
     const vs = [];
     let id=0; 
     for (let i = 0; i < teams.length; i += 2) {
@@ -8,19 +9,30 @@ const equipoVs = (teams) => {
         if (team2) {
             vs.push({
                 id: id,
-                team1: team1.nombreEquipo,
-                team2: team2.nombreEquipo
+                team1:{
+                     name:team1.nombreEquipo,
+                    idEquipo: team1._id
+                },
+                team2:{ 
+                    name:team2.nombreEquipo,
+                    idEquipo: team2._id}
             });
         } else {
             vs.push({
-                team1: team1.nombreEquipo,
-                team2: "no tiene pareja"
+                team1:{
+                     name:team1.nombreEquipo,
+                    idEquipo: team1._id},
+                team2:{
+                     name:'no tiene nombre',
+                    idEquipo: 'no tiene id'
+                }
             });
         }
     }
-
+   
     return vs;
 };
+
 
 export default equipoVs;
 
