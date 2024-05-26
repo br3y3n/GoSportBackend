@@ -46,9 +46,7 @@ console.log(dataVs)
     };
     obtenerUsuarios();
   }, []);
-  console.log(
-    data
-  )
+ 
   const sortearEquipos = async () => {
     try {
       localStorage.setItem('estadoFase', estado)

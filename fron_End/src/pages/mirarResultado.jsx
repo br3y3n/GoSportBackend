@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { SideBar } from '../components/sideBar';
 import axios from 'axios';
+import ListaJugadores from '../components/listasJugadores'
 export const Resultado = () => {
    const [data, setData]= useState()
-   const [equipo, setEquipo] = useState()
+  const [equipo, setEquipo] =useState()
    const idFase= localStorage.getItem('IdFase');
    const IdCampeonato = localStorage.getItem('ID')
    useEffect(() => {
@@ -18,21 +19,9 @@ export const Resultado = () => {
     };
     obtenerUsuarios();
   }, []);
-  const obtenerIdEquipo=(idEquipo)=>{
-      
-  useEffect(() => {
-    const obtenerEquipo = async () => {
-      const response = await axios.get(`http://localhost:4000/equipo/obtenerEquipo${idEquipo}`,{
-        headers: {
-          Idcampeonato: IdCampeonato
-        }
-      });
-       setData(response.data);
-      
-    };
-    obtenerUsuarios();
-  }, [])}
-  console.log(data)
+
+console.log(equipo)
+ 
   return (
     <article className='participantes'> 
       <SideBar/>
@@ -41,13 +30,16 @@ export const Resultado = () => {
   {
     data && data.equipos.map((equipo)=>(  
       <article key={equipo._id} className='equiposIncritos'>
-        <h1>{equipo.equipo1.name} VS {equipo.equipo2.name}</h1>
-
+        <div>
+        <h1 onClick={()=>setEquipo(1)}>{equipo.equipo1.name}</h1>  
+        <h1 onClick={()=>setEquipo(2)}>{equipo.equipo2.name}</h1>
+        </div>
       </article>
     ))
   }
    
   </div>
+  <ListaJugadores numeroEquipo={equipo} />
   </article>
   )
 }

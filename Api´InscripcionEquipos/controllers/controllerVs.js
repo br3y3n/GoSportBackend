@@ -9,7 +9,6 @@ const enfrentamientos = async (req, res) => {
   try {
     const equipos = await InscripcionEquipos.find({ Idcampeonato });
     const equiposInscritos = equipos.filter((equipo) => equipo.Idcampeonato === Idcampeonato);
-    console.log(equiposInscritos)
     res.send({ equiposInscritos });
   } catch (error) {
     res.status(500).send("Error al obtener el equipo");
