@@ -1,44 +1,14 @@
 import mongoose from "mongoose";
 
 const resultadoShema = mongoose.Schema({
-    golesEquipo1: {
-        type: Number,
+    equipo1: {
+        type: Schema.Types.Mixed,
         require: true,
         trim: true
     },
-    golesEquipo2: {
-        type: Number,
+    equipo2: {
+        type: Schema.Types.Mixed,
         require: true,
-        trim: true
-    },
-    tarjetasAmarillas_e1: {
-        type: Number,
-        require: false,
-        trim: true
-    },
-    tarjetasAmarillas_e2: {
-        type: Number,
-        require: false,
-        trim: true
-    },
-    tarjetasRojas_e1: {
-        type: Number,
-        require: false,
-        trim: true
-    },
-    tarjetasRojas_e2:{
-        type: Number,
-        requiere: false,
-        trim: true
-    },
-    faltas_e1:{
-        type: Number,
-        require: false,
-        trim: true
-    },
-    faltas_e2:{
-        type: Number,
-        require: false,
         trim: true
     },
     IdVs:{

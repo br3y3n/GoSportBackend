@@ -131,3 +131,8 @@
   height: 30px;
   margin-bottom: 20px;
 }
+.estadistica{
+  display: flex;
+  height: max-content;
+  gap: 20px;
+}

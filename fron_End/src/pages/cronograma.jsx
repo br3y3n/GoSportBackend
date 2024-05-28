@@ -93,6 +93,7 @@ console.log(dataVs)
     }
   }
 
+  
   return (
   <article className='participantes'>
 

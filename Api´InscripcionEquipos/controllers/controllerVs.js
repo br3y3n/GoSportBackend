@@ -79,6 +79,29 @@ const guardarVs= async (req, res) => {
     }
   }
 
+  const obtenerVs1  = async(req, res)=>{
+    const {id} = req.params
+    const {idfase} = req.headers
+    const IdFase = idfase  
+    try{
+    
+
+      if(IdFase){
+        const vs= await Vs.findById(id)
+        return res.send({
+          msg: "id Encontrado",
+          equipos: vs
+        })
+      }else{
+        return res.send({
+          msg:"id no encontrado"
+        })
+      }
+      }catch(error){
+        console.log(error)
+      }
+    }
+
   const actualizarVs =async (req, res)=>{
     const id= req.params.id
     const {equipo1, equipo2,IdFase, fecha, hora } = req.body
@@ -111,4 +134,4 @@ const guardarVs= async (req, res) => {
     
   }
  
-export { enfrentamientos, guardarVs ,obtenerVs, actualizarVs};
+export { enfrentamientos, guardarVs ,obtenerVs, actualizarVs, obtenerVs1};

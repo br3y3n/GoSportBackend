@@ -58,13 +58,12 @@ const borrarInscripcionEquipo = async (req, res) => {
 }
 const obtenerEquipo = async (req, res) => {
     const { id } = req.params
-    const {idcampeonato} = req.headers
-    //const {IdVs}= req.headers
-
+   
     try {
-        const equiposInscritos = await InscripcionEquipos.find(idcampeonato);
-        console.log(equiposInscritos)
-        const equipo = equiposInscritos.filter((equipo)=> equipo._id === id)
+        // const equiposInscritos = await InscripcionEquipos.find({idcampeonato});
+        const equipo = await InscripcionEquipos.findById(id)
+        // console.log(equiposInscritos)
+        // const equipo = equiposInscritos.filter((equipo)=> equipo._id === id)
         if (!equipo) {
             return res.status(404).json({ msg: "equipo no encontrado" });
         }
