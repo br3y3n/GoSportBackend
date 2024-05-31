@@ -16,6 +16,11 @@ const resultadoShema = mongoose.Schema({
         require: false,
         trim: true
     },
+    IdFase:{
+        type:String,
+        require: false,
+        trim: true
+    },
     EstadoPartido:{
         type:Boolean,
         require: false,

@@ -1,7 +1,5 @@
 import InscripcionEquipos from "../models/inscripcionEquipos.js";
 import Campeonatos from "../models/campeonatos.js";
-import randomEquipo from "../helper/randomEquipos.js";
-import equipoVs from "../helper/equipoVs.js";
 const agregarInscripcionEquipo = async (req, res) => {
     const { nombreEquipo } = req.body;
     const existInscripcion = await InscripcionEquipos.findOne({ nombreEquipo })

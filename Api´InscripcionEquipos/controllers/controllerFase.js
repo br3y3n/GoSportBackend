@@ -24,6 +24,25 @@ const crearFase = async (req, res) => {
     }
 }
 
+const actuazarFase = async (req, res) => {
+    const estado = req.body.estado;
+    const nombre = req.body.nombreFase;
+    const id = req.params
+    try {
+
+        const fase = await Fase.findById(id)
+
+        fase.estado = estado
+        fase.nombre = nombre
+        await fase.save();
+        res.json({ msg: "Fase actualizada correctamente",}); // Envía el ObjectId al frontend
+    } catch (error) {
+        res.status(500).send('Error al crear la fase');
+        console.log(error);
+    }
+}
+
 export {
-    crearFase
+    crearFase,
+    actuazarFase
 }

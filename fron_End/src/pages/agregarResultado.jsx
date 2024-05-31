@@ -9,6 +9,9 @@ export const AgregarResultado = () => {
   const [open1, setOpen1] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [openGoles, setOpengoles] = useState(false)
+  const [open1E2, setOpen1E2] = useState(false)
+  const [open2E2, setOpen2E2] = useState(false)
+  const [openGolesE2, setOpengolesE2] = useState(false)
   const [numGoles, setNumGoles]=useState(0)
   const [golesEquipo1, setGolesEquipo1]= useState([])
   const idFase = localStorage.getItem('IdFase');
@@ -36,6 +39,7 @@ export const AgregarResultado = () => {
     obtenerUsuarios();
   }, [id, idFase]);
 
+  console.log(data)
   useEffect(() => {
     if (data) {
       const obtenerEquipo = async () => {
@@ -76,9 +80,11 @@ export const AgregarResultado = () => {
               numeroGoles:numGoles2
             },
             IdVs:id,
+            IdFase: idFase,
             EstadoPartido: false
 
           };
+          console.log(resultado)
           
           const resultados = await axios.post(`http://localhost:4000/resultados/agregarResultado`,resultado)
           console.log(resultados)
@@ -104,10 +110,22 @@ export const AgregarResultado = () => {
   const seleccionarJugadorGoles = (nombre) => {
     setGolesEquipo1(prev => [...prev, nombre])
   }
+  const seleccionarJugadorAmarillasE2 = (nombre) => {
+    setAmarillasEquipo2(prev => [...prev, nombre])
+  }
+
+  const seleccionarJugadorRojasE2 = (nombre) => {
+    setrojasEquipo2(prev => [...prev, nombre])
+  }
+  const seleccionarJugadorGolesE2 = (nombre) => {
+    setGolesEquipo2(prev => [...prev, nombre])
+  }
   const finalizarPartido = () => {
     setEstadoPartido(false);
     alert('Partido finalizado');
   };
+
+
   
 
   return (
@@ -207,15 +225,88 @@ export const AgregarResultado = () => {
         <section className='agrResultadoEq1'>
           <div>
             <h1>{data && data.equipos.equipo2.name}</h1>
+
             <h2>goles</h2>
             <h2>tarjetas Amarillas</h2>
             <h2>tarjetas rojas</h2>
           </div>
+          <div>
+              <h1>amarillas equipo2</h1>
+              {amarillasEquipo2 && amarillasEquipo2.map((nombre, index) => (
+                <h1 key={index}>{nombre}</h1>
+              ))}
+            </div>
           <div className='agrInput'>
-            <h1>0</h1>
-            <input type="text" />
-            <input type="text" />
-            <input type="text" />
+            <h1>{numGoles2}</h1>
+            <div>
+              <button onClick={()=>setOpengolesE2(true)}>Seleccionar jugador</button>
+              {openGolesE2 &&(
+                <dialog open={true}>
+                {equipo2 && equipo2.equipo.participantes.map((integrante) => (
+                  <h1
+                    key={integrante.N}
+                    onClick={() => {seleccionarJugadorGolesE2(integrante.nombreJugador)
+                      setOpengolesE2(false)
+                    setNumGoles2(numGoles2+1)}
+                    }>
+                    {integrante.nombreJugador}
+                  </h1>
+                ))}
+                <button onClick={() => setOpengolesE2(false)}>Cerrar</button>
+                </dialog>
+              )}
+
+              
+            </div>
+            <div>
+              <button onClick={() => setOpen1E2(true)}>Seleccionar jugador</button>
+              {open1E2 && (
+                <dialog open={true}>
+                  {equipo2 && equipo2.equipo.participantes.map((integrante) => (
+                    <h1
+                      key={integrante.N}
+                      onClick={() => {seleccionarJugadorAmarillasE2(integrante.nombreJugador)
+                        setOpen1E2(false)}
+                      }>
+                      {integrante.nombreJugador}
+                    </h1>
+                  ))}
+                  <button onClick={() => setOpen1E2(false)}>Cerrar</button>
+                </dialog>
+              )}
+
+            </div>
+            <div>
+              <button onClick={() => setOpen2E2(true)}>Seleccionar Jugador</button>
+              {open2E2 && (
+                <dialog open={true}>
+                  {equipo2 && equipo2.equipo.participantes.map((integrante) => (
+                    <h1
+                      key={integrante.N}
+                      onClick={() => {seleccionarJugadorRojasE2(integrante.nombreJugador)
+                        setOpen2E2(false)
+                      }}>
+                      {integrante.nombreJugador}
+                    </h1>
+                  ))}
+                  <button onClick={() => setOpen2E2(false)}>Cerrar</button>
+                </dialog>
+              )}
+              <div>
+                <h1>rojas equipo2</h1>
+                {rojasEquipo2 && rojasEquipo2.map((nombre, index) => (
+                  <h1 key={index}>{nombre}</h1>
+
+                
+
+                ))}
+                  <h1>Goles equipo2 </h1>
+                  {golesEquipo2 && golesEquipo2.map((nombre ,index)=>(
+                    <h1 key={index}>{nombre}</h1>
+                  ))}
+              </div> 
+              </div>
+
           </div>
         </section>
         <div>
