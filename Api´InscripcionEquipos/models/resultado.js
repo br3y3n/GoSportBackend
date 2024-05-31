@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { Schema } from "mongoose";
 const resultadoShema = mongoose.Schema({
     equipo1: {
         type: Schema.Types.Mixed,
@@ -13,6 +13,11 @@ const resultadoShema = mongoose.Schema({
     },
     IdVs:{
         type:String,
+        require: false,
+        trim: true
+    },
+    EstadoPartido:{
+        type:Boolean,
         require: false,
         trim: true
     }

@@ -5,7 +5,7 @@ import inscripcionEquiposRouter from "./routes/routesInscripcionEquipo.js";
 import campeonatosRouter from "./routes/routesCampeonato.js";
 import VSRouter from "./routes/routesVS.js";
 import faseRouter from "./routes/routesFase.js";
-
+import resultadoRouter from "./routes/routesResultado.js"
 const app = express();
 app.use(express.json())
 connectionDB();
@@ -25,6 +25,7 @@ app.use('/equipo', inscripcionEquiposRouter);
 app.use('/campeonatos', campeonatosRouter);
 app.use('/enfrentamiento', VSRouter);
 app.use('/fases', faseRouter);
+app.use('/resultados', resultadoRouter)
 const PORT = 4000;
 
 app.listen(PORT, () => {

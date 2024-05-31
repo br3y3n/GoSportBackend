@@ -34,7 +34,7 @@ export const Cronograma = () => {
         obtenerVs()
     }
   }, [])
-console.log(dataVs)
+
   useEffect(() => {
     const obtenerUsuarios = async () => {
       const response = await axios.get(`http://localhost:4000/enfrentamiento/vs`,{

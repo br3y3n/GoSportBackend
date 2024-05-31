@@ -8,9 +8,17 @@ export const AgregarResultado = () => {
   const [equipo2, setEquipo2] = useState()
   const [open1, setOpen1] = useState(false)
   const [open2, setOpen2] = useState(false)
+  const [openGoles, setOpengoles] = useState(false)
+  const [numGoles, setNumGoles]=useState(0)
+  const [golesEquipo1, setGolesEquipo1]= useState([])
   const idFase = localStorage.getItem('IdFase');
   const [amarillasEquipo1, setAmarillasEquipo1] = useState([])
   const [rojasEquipo1, setrojasEquipo1] = useState([])
+  const [amarillasEquipo2, setAmarillasEquipo2] = useState([])
+  const [rojasEquipo2, setrojasEquipo2] = useState([])
+  const [numGoles2, setNumGoles2]=useState(0)
+  const [golesEquipo2, setGolesEquipo2]= useState([])
+  const [estadoPartido, setEstadoPartido]=useState(true)
   const { id } = useParams()
   useEffect(() => {
     const obtenerUsuarios = async () => {
@@ -47,6 +55,44 @@ export const AgregarResultado = () => {
       obtenerEquipo()
     }
   }, [data])
+  useEffect(() => {
+  if(!estadoPartido)  {
+   
+      const agregarResultado = async () => {
+        try {
+          const resultado = {
+            equipo1:{
+              idEquipo:data.equipos.equipo1.idEquipo,
+              tarjetasAmarillas:[amarillasEquipo1],
+              tarjetasRojas:[rojasEquipo1],
+              jugadoresGoles:[golesEquipo1],
+              numeroGoles:numGoles
+            },
+            equipo2:{
+              idEquipo:data.equipos.equipo2.idEquipo,
+              tarjetasAmarillas:[amarillasEquipo2],
+              tarjetasRojas:[rojasEquipo2],
+              jugadoresGoles:[golesEquipo2],
+              numeroGoles:numGoles2
+            },
+            IdVs:id,
+            EstadoPartido: false
+
+          };
+          
+          const resultados = await axios.post(`http://localhost:4000/resultados/agregarResultado`,resultado)
+          console.log(resultados)
+          console.log("datos enviados correctamente")
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      
+        agregarResultado()
+    
+    }
+  
+  }, [estadoPartido, data, amarillasEquipo1, rojasEquipo1, golesEquipo1, numGoles, amarillasEquipo2, rojasEquipo2, golesEquipo2, numGoles2, id])
 
   const seleccionarJugadorAmarillas = (nombre) => {
     setAmarillasEquipo1(prev => [...prev, nombre])
@@ -55,6 +101,14 @@ export const AgregarResultado = () => {
   const seleccionarJugadorRojas = (nombre) => {
     setrojasEquipo1(prev => [...prev, nombre])
   }
+  const seleccionarJugadorGoles = (nombre) => {
+    setGolesEquipo1(prev => [...prev, nombre])
+  }
+  const finalizarPartido = () => {
+    setEstadoPartido(false);
+    alert('Partido finalizado');
+  };
+  
 
   return (
     <>
@@ -70,16 +124,35 @@ export const AgregarResultado = () => {
 
             <div>
               <h1>amarillas equipo1</h1>
-              {amarillasEquipo1 && amarillasEquipo1.map((nombre) => (
-                <h1>{nombre}</h1>
+              {amarillasEquipo1 && amarillasEquipo1.map((nombre, index) => (
+                <h1 key={index}>{nombre}</h1>
               ))}
             </div>
 
 
           </div>
           <div className='agrInput'>
-            <br />
-            <h1>0</h1>
+            <h1>{numGoles}</h1>
+            <div>
+              <button onClick={()=>setOpengoles(true)}>Seleccionar jugador</button>
+              {openGoles &&(
+                <dialog open={true}>
+                {equipo1 && equipo1.equipo.participantes.map((integrante) => (
+                  <h1
+                    key={integrante.N}
+                    onClick={() => {seleccionarJugadorGoles(integrante.nombreJugador)
+                      setOpengoles(false)
+                    setNumGoles(numGoles+1)}
+                    }>
+                    {integrante.nombreJugador}
+                  </h1>
+                ))}
+                <button onClick={() => setOpengoles(false)}>Cerrar</button>
+                </dialog>
+              )}
+
+              
+            </div>
             <div>
               <button onClick={() => setOpen1(true)}>Seleccionar jugador</button>
               {open1 && (
@@ -87,7 +160,9 @@ export const AgregarResultado = () => {
                   {equipo1 && equipo1.equipo.participantes.map((integrante) => (
                     <h1
                       key={integrante.N}
-                      onClick={() => seleccionarJugadorAmarillas(integrante.nombreJugador)}>
+                      onClick={() => {seleccionarJugadorAmarillas(integrante.nombreJugador)
+                        setOpen1(false)}
+                      }>
                       {integrante.nombreJugador}
                     </h1>
                   ))}
@@ -104,7 +179,9 @@ export const AgregarResultado = () => {
                   {equipo1 && equipo1.equipo.participantes.map((integrante) => (
                     <h1
                       key={integrante.N}
-                      onClick={() => seleccionarJugadorRojas(integrante.nombreJugador)}>
+                      onClick={() => {seleccionarJugadorRojas(integrante.nombreJugador)
+                        setOpen2(false)
+                      }}>
                       {integrante.nombreJugador}
                     </h1>
                   ))}
@@ -113,10 +190,17 @@ export const AgregarResultado = () => {
               )}
               <div>
                 <h1>rojas equipo1</h1>
-                {rojasEquipo1 && rojasEquipo1.map((nombre) => (
-                  <h1>{nombre}</h1>
+                {rojasEquipo1 && rojasEquipo1.map((nombre, index) => (
+                  <h1 key={index}>{nombre}</h1>
+
+                
+
                 ))}
-              </div>
+                  <h1>Goles equipo1 </h1>
+                  {golesEquipo1 && golesEquipo1.map((nombre ,index)=>(
+                    <h1 key={index}>{nombre}</h1>
+                  ))}
+              </div> 
             </div>
           </div>
         </section>
@@ -134,6 +218,10 @@ export const AgregarResultado = () => {
             <input type="text" />
           </div>
         </section>
+        <div>
+      <button onClick={finalizarPartido}>Finalizar Partido</button>
+      {!estadoPartido && <h1>Partido finalizado</h1>}
+    </div>
 
       </article>
 

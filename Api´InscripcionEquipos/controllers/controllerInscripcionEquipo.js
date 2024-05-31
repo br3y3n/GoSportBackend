@@ -62,8 +62,6 @@ const obtenerEquipo = async (req, res) => {
     try {
         // const equiposInscritos = await InscripcionEquipos.find({idcampeonato});
         const equipo = await InscripcionEquipos.findById(id)
-        // console.log(equiposInscritos)
-        // const equipo = equiposInscritos.filter((equipo)=> equipo._id === id)
         if (!equipo) {
             return res.status(404).json({ msg: "equipo no encontrado" });
         }

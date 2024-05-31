@@ -1,4 +1,4 @@
-import Resultado from "../models/resultado"
+import Resultado from '../models/resultado.js'
 
 const obtenerResultado = async (req, res) => {
     try {
@@ -10,9 +10,19 @@ const obtenerResultado = async (req, res) => {
         console.log(error)
     }
 }
+const agregarResultado = async (req, res) => {
+    try {
+        const resultado = Resultado(req.body);
+        const resultadoSave = await resultado.save()
+        res.json(resultadoSave)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
 
 export {
-    obtenerResultado
+    obtenerResultado,
+    agregarResultado
 }
