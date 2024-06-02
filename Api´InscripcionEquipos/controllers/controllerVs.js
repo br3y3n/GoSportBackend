@@ -16,6 +16,22 @@ const enfrentamientos = async (req, res) => {
   }
 };
 
+const equiposInscritosCampeonato = async (req, res) => {
+  const Idcampeonato = req.headers.authorization;
+ 
+  try {
+    const equipos = await InscripcionEquipos.find({ Idcampeonato });
+    const equiposInscritos = equipos.filter((equipo) => equipo.Idcampeonato === Idcampeonato);
+    const equiposGanador = equiposInscritos.filter((equipo)=> equipo.ganador == true)
+    const equiposPerdedor = equiposInscritos.filter((equipo)=> equipo.ganador == false)
+    res.send({ ganador:equiposGanador, 
+      perdedor:equiposPerdedor
+     });
+  } catch (error) {
+    res.status(500).send("Error al obtener el equipo");
+    console.log(error);
+  }
+};
 
 const guardarVs= async (req, res) => {
   const equipos = req.body.dataVs.equipos;

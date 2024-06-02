@@ -21,8 +21,7 @@ export const Resultado = () => {
     obtenerUsuarios();
   }, []);
 
-  console.log(data)
- 
+ console.log(data)
   return (
     <article className='participantes'> 
       <SideBar/>

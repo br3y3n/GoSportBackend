@@ -12,12 +12,14 @@ export const Cronograma = () => {
   const [mensaje, setMensaje]= useState();
   const [nombreFase, setNombreFase]= useState("Fase 1")
   const [estado, setEstado]= useState(true)
-  const [dataVs, setDataVs]= useState();
+  const [dataVs, setDataVs]= useState([]);
   const [estadoBtn, setEstadoBtn] = useState(true)
   const [hora, setHora]= useState('')
   const [fecha, setFecha] = useState('')
   const estadoFase = localStorage.getItem('estadoFase');
   const idFase= localStorage.getItem('IdFase');
+  const [resultados, setResultados] = useState([])
+ 
   
   useEffect(() => {
     if(estadoFase){
@@ -27,13 +29,25 @@ export const Cronograma = () => {
             IdFase: idFase
           }
         })
+        const result =await axios.get('http://localhost:4000/resultados/lenResultadoVs',{
+          headers: {
+            IdFase: idFase
+          }
+        })
+
+      setResultados(result.data)
       setEstadoBtn(false)
       
       setDataVs(vs.data.equipos)
+
+      
       }
         obtenerVs()
     }
   }, [])
+
+
+ 
 
   useEffect(() => {
     const obtenerUsuarios = async () => {
@@ -124,7 +138,7 @@ export const Cronograma = () => {
           onChange={e => setFecha(e.target.value)}
           />
         </div>
-        <button onClick={()=>agregarCronograma(equipo._id, equipo.equipo1.name, equipo.equipo2.name, equipo.IdFase)} >Guardar</button>
+        <button onClick={()=>agregarCronograma(equipo._id, equipo.equipo1, equipo.equipo2, equipo.IdFase)} >Guardar</button>
       </article>
     ))
    
