@@ -17,6 +17,7 @@ export const InscribirEquipos = () => {
     const [dorsal, setDorsal] = useState(0)
     const [participantes, setParticipantes] = useState([]);
     // localStorage.setItem('ID', Idcampeonato.toString())
+    //const Idcampeonato = localStorage.getItem('ID');
     const agregarIntegrante = () => {
         const nuevoIntegrante = {
           N,

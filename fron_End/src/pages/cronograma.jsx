@@ -37,7 +37,6 @@ export const Cronograma = () => {
 
       setResultados(result.data)
       setEstadoBtn(false)
-      
       setDataVs(vs.data.equipos)
 
       

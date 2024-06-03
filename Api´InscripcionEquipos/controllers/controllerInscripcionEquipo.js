@@ -18,26 +18,22 @@ const agregarInscripcionEquipo = async (req, res) => {
 
 const modificarInscripcionEquipo = async (req, res) => {
     const { id } = req.params;
-    const { nombreEquipo, nombreCapitan, contactoUno, contactoDos, jornada, participantes } = req.body
-    const Idcampeonato = await Campeonatos.findById()
-    const equipoInscrito = await InscripcionEquipos.findById(id)
-    if (!equipoInscrito) {
-        const error = new Error("Equipo Inscrito no encontrado")
-        return res.status(400).json({ msg: error })
-    }
+    const { estadoGanador} = req.body;
 
     try {
-        equipoInscrito.nombreEquipo = nombreEquipo,
-        equipoInscrito.nombreCapitan = nombreCapitan,
-        equipoInscrito.contactoUno = contactoUno,
-        equipoInscrito.contactoDos = contactoDos,
-        equipoInscrito.jornada = jornada,
-        equipoInscrito.Idcampeonato = Idcampeonato 
-        equipoInscrito.participantes = participantes,    
-        await equipoInscrito.save()
-        res.json({ msg: "campos del equipo modificados correctamente" })
+        const resultado = await InscripcionEquipos.updateOne(
+            { _id: id },
+            { $set: { ganador: estadoGanador } }
+        );
+
+        if (resultado.nModified === 0) {
+            return res.status(404).json({ msg: "Equipo Inscrito no encontrado o sin cambios" });
+        }
+
+        res.json({ msg: "Campo del equipo modificado correctamente" });
     } catch (error) {
-        console.log(error)
+        console.error(error);
+        res.status(500).json({ msg: "Error al modificar el equipo", error });
     }
 }
 
@@ -68,10 +64,25 @@ const obtenerEquipo = async (req, res) => {
         console.log(error)
     }
 }
+const obtenerEquipos = async (req, res) => {
+    const { IdCampeonato } = req.headers
+   
+    try {
+        // const equiposInscritos = await InscripcionEquipos.find({idcampeonato});
+        const equipo = await InscripcionEquipos.find({IdCampeonato})
+        if (!equipo) {
+            return res.status(404).json({ msg: "equipo no encontrado" });
+        }
+        res.json({ equipo: equipo });
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export {
     agregarInscripcionEquipo,
     modificarInscripcionEquipo,
     borrarInscripcionEquipo,
-    obtenerEquipo
+    obtenerEquipo,
+    obtenerEquipos
 }

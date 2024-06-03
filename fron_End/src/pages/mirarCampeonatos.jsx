@@ -8,10 +8,13 @@ export const MirarCampeonatos = () => {
   useEffect(() => {
     const obtenerUsuarios = async () => {
       const response = await axios.get(`http://localhost:4000/campeonatos/obtenerCampeonato`);
+      
       setData(response.data);
+      console.log(data)
     };
     obtenerUsuarios();
   }, []);
+ 
   return (
     <>
      <h1>campeonatos disponibles</h1>
