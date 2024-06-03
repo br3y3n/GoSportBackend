@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 export const AgregarResultado = () => {
+  const IdCampeonato = localStorage.getItem('ID')
 
   const [data, setData] = useState()
   const [equipo1, setEquipo1] = useState()
@@ -22,6 +23,7 @@ export const AgregarResultado = () => {
   const [numGoles2, setNumGoles2]=useState(0)
   const [golesEquipo2, setGolesEquipo2]= useState([])
   const [estadoPartido, setEstadoPartido]=useState(true)
+  const [estadoGanador, setEstadoGanador]=useState(false)
   const { id } = useParams()
   useEffect(() => {
     const obtenerUsuarios = async () => {
@@ -39,7 +41,6 @@ export const AgregarResultado = () => {
     obtenerUsuarios();
   }, [id, idFase]);
 
-  console.log(data)
   useEffect(() => {
     if (data) {
       const obtenerEquipo = async () => {
@@ -59,6 +60,11 @@ export const AgregarResultado = () => {
       obtenerEquipo()
     }
   }, [data])
+  
+  
+
+
+  
   useEffect(() => {
   if(!estadoPartido)  {
    
@@ -84,10 +90,7 @@ export const AgregarResultado = () => {
             EstadoPartido: false
 
           };
-          console.log(resultado)
-          
           const resultados = await axios.post(`http://localhost:4000/resultados/agregarResultado`,resultado)
-          console.log(resultados)
           console.log("datos enviados correctamente")
         } catch (error) {
           console.log(error)
@@ -99,7 +102,26 @@ export const AgregarResultado = () => {
     }
   
   }, [estadoPartido, data, amarillasEquipo1, rojasEquipo1, golesEquipo1, numGoles, amarillasEquipo2, rojasEquipo2, golesEquipo2, numGoles2, id])
-
+  useEffect(()=>{
+    if(!estadoPartido){
+  const modificarEquipo=async()=>{
+    try {
+      if(numGoles > numGoles2){
+      const vs1 = await axios.patch(`http://localhost:4000/equipo/modificarInscripcion/${data.equipos.equipo2.idEquipo}`, {
+          estadoGanador
+      });}else{
+      const vs2 = await axios.patch(`http://localhost:4000/equipo/modificarInscripcion/${data.equipos.equipo1.idEquipo}`, {
+         estadoGanador
+     
+      });}
+      console.log('equipo modificado');
+    } catch (error) {
+      console.error('Error al modificar el equipo:', error);
+    }
+  }
+  modificarEquipo()
+}
+},[estadoPartido, estadoGanador])
   const seleccionarJugadorAmarillas = (nombre) => {
     setAmarillasEquipo1(prev => [...prev, nombre])
   }

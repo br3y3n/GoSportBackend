@@ -37,6 +37,11 @@ const inscripcionEquiposSchema = mongoose.Schema({
         trim: true
     },
     participantes: [participanteSchema],
+    ganador: {
+        type: String,
+        require: true,
+        trim: true
+    },
 
 })
 
