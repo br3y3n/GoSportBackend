@@ -19,6 +19,7 @@ export const Participantes = () => {
         obtenerUsuarios();
       }, []);
 
+      console.log(data)
       
   return (
     <article className='participantes'>
@@ -26,7 +27,7 @@ export const Participantes = () => {
         <section className='listadoParticipantes'>
         
         { data &&
-        data.equiposInscritos.map((equipo) => (
+        data.ganadores.map((equipo) => (
           <article className='integrante' key={equipo._id}>
             <h1>nombre equipo: {equipo.nombreEquipo}</h1>
             <h1>nombre capitan: {equipo.nombreCapitan}</h1>

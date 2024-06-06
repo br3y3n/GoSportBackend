@@ -52,9 +52,8 @@ const borrarInscripcionEquipo = async (req, res) => {
 }
 const obtenerEquipo = async (req, res) => {
     const { id } = req.params
-   
+   // se obtiene un equipo, en  este caso se envia el ID desde el cliente se busca con el findbyid y se encuentra retorna ese equipo
     try {
-        // const equiposInscritos = await InscripcionEquipos.find({idcampeonato});
         const equipo = await InscripcionEquipos.findById(id)
         if (!equipo) {
             return res.status(404).json({ msg: "equipo no encontrado" });
@@ -66,9 +65,8 @@ const obtenerEquipo = async (req, res) => {
 }
 const obtenerEquipos = async (req, res) => {
     const { IdCampeonato } = req.headers
-   
+    // se obtiene todos los equipos que se encuentran  inscritos a ese campeonato
     try {
-        // const equiposInscritos = await InscripcionEquipos.find({idcampeonato});
         const equipo = await InscripcionEquipos.find({IdCampeonato})
         if (!equipo) {
             return res.status(404).json({ msg: "equipo no encontrado" });

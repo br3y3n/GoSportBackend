@@ -12,7 +12,7 @@ export const Cronograma = () => {
   const [mensaje, setMensaje]= useState();
   const [nombreFase, setNombreFase]= useState("Fase 1")
   const [estado, setEstado]= useState(true)
-  const [dataVs, setDataVs]= useState([]);
+  const [dataVs, setDataVs]= useState();
   const [estadoBtn, setEstadoBtn] = useState(true)
   const [hora, setHora]= useState('')
   const [fecha, setFecha] = useState('')
@@ -20,36 +20,64 @@ export const Cronograma = () => {
   const idFase= localStorage.getItem('IdFase');
   const [resultados, setResultados] = useState([])
  
-  
+
+
+  console.log(idFase)
+
+  useEffect(() => {
+      const obtenerVs =async ()=>{
+
+        // se utiliza la api lenResultados para vrificar que todas los resultados se hallan llenado 
+        // si ya se llenaron todos los resultados se manda a llamar a la otra api equipos clasificados
+      const vs = await axios.get('http://localhost:4000/resultados/lenResultadoVs', {
+          headers: {
+            IdFase: idFase
+          }
+        })
+        console.log(vs.data)
+        if(vs.data.estadoFase == false ){
+          //traemos la variable estadoFase y la cambios a false lo cual quiere decir
+          // que la fase a terminado y se necesita formanar nuevos cronogramas
+          localStorage.setItem('estadoFase', false)
+          setEstadoBtn(true)
+          const clasificacion = await axios.get('http://localhost:4000/resultados/equiposClasificados',{
+            headers:{
+              IdFase: idFase
+            }
+          })
+
+          console.log(clasificacion.data.msg)
+        }
+      }
+        obtenerVs()
+    
+  }, [])
+
   useEffect(() => {
     if(estadoFase){
+
+      // si el estado de la fase se mantiene en true quiere decir que la fase esta en juego y que ya hay 
+      // unos cronagramas, despues se manda a llamar a la api obtener vs,
+      //esta api me de vuelve todos los Vs que hay en esa fase 
       const obtenerVs =async ()=>{
       const vs = await axios.get('http://localhost:4000/enfrentamiento/obtenervs', {
           headers: {
             IdFase: idFase
           }
         })
-        const result =await axios.get('http://localhost:4000/resultados/lenResultadoVs',{
-          headers: {
-            IdFase: idFase
-          }
-        })
-
-      setResultados(result.data)
+        // se cambia el estado del boton sortear a false para que no se pueda sortear dos veces 
       setEstadoBtn(false)
       setDataVs(vs.data.equipos)
-
-      
       }
         obtenerVs()
     }
   }, [])
 
 
- 
-
   useEffect(() => {
     const obtenerUsuarios = async () => {
+
+      // se manda a llamar a la api vs para obtener los vs, y si no hay equipos en vs todavia se manda todos los vs que me devuelva
       const response = await axios.get(`http://localhost:4000/enfrentamiento/vs`,{
         headers:{
           Authorization: IdCampeonato
@@ -62,17 +90,21 @@ export const Cronograma = () => {
  
   const sortearEquipos = async () => {
     try {
+      // se cambia el estado de la fase a true lo que quiere decir que ya hay vs y no tiene que volver a pasar por esta funcion
+      //esta funcion se ejecuta solamente cuando no hay una fase y no hay vs para esa fase
       localStorage.setItem('estadoFase', estado)
-      // Obtener el idFase
+      // se manda a llamar a la api para crear la fase y lo que nos devuelve es el id de la fase que se creo
       const fase = await axios.post('http://localhost:4000/fases/obtener', { estado, nombreFase });
+      // se guarda en una variable el id de la fase que se halla creado
       const idFase = fase.data._id;
       setIdFase(idFase)
       // Guardar los datos para enviar
       const dataVs = {
-        equipos: data.equiposInscritos,
+        equipos: data.ganadores,
         IdFase: idFase
       };
       console.log(dataVs)
+      //se actualiza el id de la fase 
       localStorage.setItem('IdFase', idFase)
       // Guardar los enfrentamientos
       const equipoSort = await axios.post('http://localhost:4000/enfrentamiento/guardarvs', {
@@ -87,7 +119,9 @@ export const Cronograma = () => {
       });
   
       // Actualizar el estado con los resultados
+      
       setEquiposSorteados(vs.data.equipos);
+      setEstadoBtn(false)
       setData();
       setMensaje(equipoSort.data.msg);
     } catch (error) {
@@ -96,6 +130,7 @@ export const Cronograma = () => {
   };
   
   const agregarCronograma=async(id, equipo1,equipo2, IdFase)=>{
+    //esta funcion nos permite actualizar un cronograma, es decir agregar la hora y fecha de cada enfrentamiento
     try {
       const vs = await axios.patch(`http://localhost:4000/enfrentamiento/agregarCronograma/${id}`, {
         equipo1, equipo2, IdFase,fecha, hora 
@@ -106,7 +141,6 @@ export const Cronograma = () => {
     }
   }
 
-  
   return (
   <article className='participantes'>
 

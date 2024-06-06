@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 
 const crearFase = async (req, res) => {
     try {
+
+        //se obtiene del los datos para crear una nueva fase 
         const estado = req.body.estado;
         const nombre = req.body.nombreFase;
 
-        // Genera un ObjectId personalizado
+        //se  Genera un ObjectId personalizado para poder enviarlo al front y guardarlo en el local storage
         const customObjectId = new mongoose.Types.ObjectId();
-
-        // Crea un nuevo documento con el ObjectId personalizado
         const fase = new Fase({
             _id: customObjectId, // Asigna el ObjectId personalizado al campo _id
             estado: estado,

@@ -1,8 +1,6 @@
 async function getRandomTeam(teams) {
     return new Promise((resolve) => {
-        // Filtrar equipos activos
         const activeTeams = teams.filter((team) => team.status === "active");
-        //mir
         if (activeTeams.length > 0) {
             // Si hay equipos activos, se resuelve la promesa y retorna un equipo activo aleatorio
             resolve(activeTeams[Math.floor(Math.random() * activeTeams.length)]);

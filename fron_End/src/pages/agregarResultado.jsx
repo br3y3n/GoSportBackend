@@ -61,10 +61,6 @@ export const AgregarResultado = () => {
     }
   }, [data])
   
-  
-
-
-  
   useEffect(() => {
   if(!estadoPartido)  {
    
@@ -113,7 +109,7 @@ export const AgregarResultado = () => {
       const vs2 = await axios.patch(`http://localhost:4000/equipo/modificarInscripcion/${data.equipos.equipo1.idEquipo}`, {
          estadoGanador
      
-      });}
+      })}
       console.log('equipo modificado');
     } catch (error) {
       console.error('Error al modificar el equipo:', error);
